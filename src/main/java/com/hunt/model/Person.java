@@ -1,9 +1,9 @@
 package com.hunt.model;
 
 public class Person {
-    long id;
-    String name;
-    int age;
+    private long id;
+    private String name;
+    private int age;
 
     public Person(long id, String name, int age) {
         this.id = id;
