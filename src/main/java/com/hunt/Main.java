@@ -13,7 +13,55 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         initData();
+        String booksInfo =
+                String.format("Общее кол-во проданных книг %d на сумму %f", getCountOfSoldBooks(),getAllPriceOfSoldBooks());
+        System.out.println(booksInfo);
     }
+    // Получить общую сумму заказов
+    public static double getAllPriceOfSoldBooks(){
+        double price = 0;
+        for (Order order : orders){
+            // Используем метод снизу
+            price += getPriceSoldBooksInOrder(order);
+        }
+        return price;
+    }
+
+    //Возвращаем общую стоимость книг одного заказа
+    public static double getPriceSoldBooksInOrder(Order order){
+        double price = 0;
+        for (long bookId : order.getBooks()){
+            Book book = getBookId(bookId);
+            price += book.getPrice();
+        }
+        return price;
+    }
+
+
+
+    // Получить общее количество проданных книг
+    public static int getCountOfSoldBooks(){
+        int count = 0;
+        for (Order order : orders){
+            count += order.getBooks().length;
+        }
+        return count;
+    }
+
+    //Поиск книги по ее ид
+    public static Book getBookId(long id){
+
+        Book currentBook = null;
+        for (Book book : books){
+            if (book.getId() == id){
+                currentBook = book;
+                break;
+            }
+        }
+        return currentBook;
+    }
+
+
 
     public static void initData(){
         employees.add(new Employee(1, "Иван Хант", 32));
@@ -47,8 +95,5 @@ public class Main {
         orders.add(new Order(2, 2,4,new long[]{1,2,3,4}));
 
         orders.add(new Order(2, 3,5,new long[]{2,5,9}));
-
-
-
     }
 }
